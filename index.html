@@ -46,9 +46,18 @@
     width: 100%;
   }
 
+  /* Portrait: stacked, full width */
   .cam {
-    flex: 1 1 480px;
+    flex: 0 0 100%;
     max-width: 100%;
+  }
+
+  /* Landscape (phones turned sideways, and desktops): side by side */
+  @media (orientation: landscape) {
+    .cam {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
   }
 
   /* Images always shrink to fit the screen width and height */
