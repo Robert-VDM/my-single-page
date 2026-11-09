@@ -1,142 +1,120 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en-AU">
 <head>
-<meta content="en-au" http-equiv="Content-Language" />
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<meta http-equiv="refresh" content="300" > 
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="refresh" content="300" />
 <title>Martha Cove Marina - Web Cam</title>
-<meta content="en-au" http-equiv="Content-Language" />
-<style type="text/css">
-.style1 {
-	text-align: center;
-}
-a {
-	color: #FFFFFF;
-}
-a:visited {
-	color: #FFFFFF;
-}
-.style43 {
-	border-width: 0;
-	font-family: Arial;
-	color: #FFFFFF;
-	font-size: small;
-}
-.style44 {
-	font-family: Arial;
-	color: #FFFFFF;
-	font-size: xx-large;
-}
-</style>
-<style type="text/css">
-.weatherzone { font-family: Tahoma, Arial, Sans-Serif; font-size: small; font-weight: normal; color: #323232; background-color: #EFEFEF; }
-.weatherzone_head { font-family: Tahoma, Arial, Sans-Serif; font-size: small; font-weight: bold; text-align: center; color: #EFEFEF; background-color: #4185A5; }
-.style53 {
-	color: #FFFFFF;
-	font-family: Arial;
-	font-size: small;
-}
-.style54 {
-	border-width: 0px;
-}
-.style55 {
-	border: 1px solid #FFFFFF;
-	text-align: left;
-	color: #FFFFFF;
-	font-family: Arial;
-	font-size: small;
-}
-.style56 {
-	border-width: 0;
-	text-align: center;
-	color: #FFFFFF;
-	font-family: Arial;
-	font-size: small;
-}
-</style>
 <link rel="shortcut icon" href="/favicon.ico" />
-<script LANGUAGE="JavaScript">
+<link rel="stylesheet" type="text/css" href="imagesize.css" />
+<style type="text/css">
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: Arial, sans-serif;
+  }
+
+  a, a:visited { color: #FFFFFF; }
+
+  .page {
+    max-width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    margin: 10px 0;
+  }
+
+  .intro {
+    font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+    margin: 0 auto 15px;
+    max-width: 900px;
+  }
+
+  /* Cameras sit side by side on wide screens, stacked on narrow ones */
+  .cams {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+  }
+
+  .cam {
+    flex: 1 1 480px;
+    max-width: 100%;
+  }
+
+  /* Images always shrink to fit the screen width and height */
+  .cam img {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    margin: 0;
+    border: 0;
+  }
+</style>
+<script type="text/javascript">
 function right(e) {
-var msg = "Function Disabled";
-if (navigator.appName == 'Netscape' && e.which == 3) {
-alert(msg);
-return false;
-}
-if (navigator.appName == 'Microsoft Internet Explorer' && event.button==2) {
-alert(msg);
-return false;
-}
-else return true;
+  var msg = "Function Disabled";
+  e = e || window.event;
+  if (e && (e.which == 3 || e.button == 2)) {
+    alert(msg);
+    return false;
+  }
+  return true;
 }
 
-function trap() 
-  {
-  if(document.images)
-    {
-    for(i=0;i<document.images.length;i++)
-      {
+function trap() {
+  if (document.images) {
+    for (var i = 0; i < document.images.length; i++) {
       document.images[i].onmousedown = right;
       document.images[i].onmouseup = right;
-      }
     }
   }
-</script>
-<script Language = "JavaScript" Type="Text/JavaScript">
-<!--  Hide script from older browsers
- var urlAddress = "http://www.martha-cove.com";
- var pageName = "Martha Cove";
+}
 
- function addToFavorites()
- {
-  if (window.external)
-  {
-   window.external.AddFavorite(urlAddress,pageName)
+var urlAddress = "http://www.martha-cove.com";
+var pageName = "Martha Cove";
+
+function addToFavorites() {
+  if (window.external && window.external.AddFavorite) {
+    window.external.AddFavorite(urlAddress, pageName);
+  } else {
+    alert("Sorry! Your browser doesn't support this function.");
   }
-  else
-  { 
-   alert("Sorry! Your browser doesn't support this function.");
-  }
- }
-// -->
+}
 </script>
-<link rel="stylesheet" type="text/css" href="imagesize.css">
-</HEAD>
+</head>
 
-<!-- STEP ONE: Copy the event handler into the BODY tag  -->
+<body onload="trap()">
+<div class="page">
+  <h1>Martha Cove Marina - Web Cam</h1>
 
-<BODY onLoad="trap()" style="background-color: #000000">
-<div class="style1">
-	<table align="center"style="width: 600px" cellpadding="0" cellspacing="0">
-		<tr>
-			<td colspan="5" class="style44">
-			<p class="style47"><strong>Martha Cove Marina - Web Cam</strong></p>
-			</td>
-		</tr>
-		<tr>
-	</table>
-	<br />
-	<body style="background-color: #000000">
-	<table align="center" width="900px" cellpadding="0" cellspacing="0">
-		<tr>
-			<td class="style53" align="center" style="height: 36px;"><font size="+1">Latest images below.&nbsp; To view latest time-lapse series click anywhere in an image and a new window will open.</br>In the new window you can also view an earlier series using the pop-up calendar and selecting a date and time.</font></td>
-		</tr>
-		<tr>
-			<td class="style51">
-			&nbsp;</td>
-		</tr>
-	</table>
-	<table align="center" cellpadding="0" cellspacing="0">
-		<tr>
-		<td colspan="2" class="style4">
-		<td style="max-width: 100%1920px" class="style43">
-		<a href= "https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&shareID=17219949">
-		<style>img { border: 0px solid #000000;}</style>
-		<img src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&index=0"/></span></a></td>
-		<td style="width: 1920px" class="style43">
-		<a href= "https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175514&shareID=17219942">
-		<style>img { border: 0px solid #000000;}</style>
-		<img src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&index=0"/></span></a></td>
-		</tr>
-	</table>
-	</body>
+  <p class="intro">
+    Latest images below. To view latest time-lapse series click anywhere in an image and a new window will open.<br />
+    In the new window you can also view an earlier series using the pop-up calendar and selecting a date and time.
+  </p>
+
+  <div class="cams">
+    <div class="cam">
+      <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
+        <img src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0" alt="Martha Cove Marina web cam 1" />
+      </a>
+    </div>
+    <div class="cam">
+      <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175514&amp;shareID=17219942">
+        <img src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0" alt="Martha Cove Marina web cam 2" />
+      </a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
