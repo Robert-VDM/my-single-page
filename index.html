@@ -137,6 +137,7 @@
   }
   .card-head {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: baseline;
     gap: 8px;
@@ -220,7 +221,8 @@
   .bg-mod  { background: var(--mod-bg);  color: var(--mod); }
   .bg-high { background: var(--high-bg); color: var(--high); }
 
-  .legend { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .legend { display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; justify-content: flex-end; }
+  .legend .meta { padding: 0 2px 0 0; }
   .legend span { font-size: 0.65rem; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
 
   /* ---------- Hourly wind ---------- */
@@ -234,22 +236,42 @@
   }
   .hr { flex: 0 0 46px; text-align: center; font-size: 0.75rem; padding: 0 2px; }
   .hr.newday { border-left: 1px solid var(--line); }
-  .h-day { font-weight: 700; min-height: 1.4em; color: var(--text); }
-  .h-time { color: var(--muted); }
-  .hr svg.wx { width: 22px; height: 22px; margin: 4px 0 2px; }
+  /* Fixed row heights so the label column lines up with every hour */
+  .h-day { font-weight: 700; height: 18px; line-height: 18px; color: var(--text); }
+  .h-time { color: var(--muted); height: 18px; line-height: 18px; }
+  .hr svg.wx { width: 22px; height: 22px; display: block; margin: 4px auto 2px; }
   .hr svg.arrow { width: 16px; height: 16px; display: block; margin: 2px auto 0; color: var(--soft); }
-  .h-dir { color: var(--muted); font-size: 0.68rem; }
-  .h-spd { border-radius: 6px; margin: 4px 3px 2px; padding: 3px 0; font-weight: 700; font-size: 0.85rem; }
-  .h-gst { font-weight: 600; }
-  .h-rain { color: #7cb9f2; font-size: 0.7rem; margin-top: 2px; }
+  .h-dir { color: var(--muted); font-size: 0.68rem; height: 16px; line-height: 16px; }
+  .h-spd { border-radius: 6px; margin: 4px 3px 2px; height: 24px; line-height: 24px; font-weight: 700; font-size: 0.85rem; }
+  .h-gst { font-weight: 600; height: 20px; line-height: 20px; }
+  .h-rain { color: #7cb9f2; font-size: 0.7rem; height: 20px; line-height: 20px; }
+
+  /* Row labels that stay put while the hours scroll */
+  .hr.lbl {
+    flex: 0 0 44px;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--card);
+    border-right: 1px solid var(--line);
+    text-align: left;
+    padding-left: 6px;
+  }
+  .hr.lbl > div { color: var(--muted); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.02em; }
+  .hr.lbl .h-spd { background: none; padding-left: 0; margin-left: 0; font-weight: 600; }
+  .sp-icon { height: 28px; }
+  .sp-arrow { height: 16px; }
   .hint { color: var(--muted); font-size: 0.7rem; margin-top: 6px; }
 
   /* ---------- 5-day ---------- */
   .days {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: 34px repeat(5, minmax(0, 1fr));
     gap: 6px;
   }
+  .day.lbl { background: none; text-align: left; padding-left: 0; padding-right: 0; }
+  .day.lbl > div { color: var(--muted); font-size: 0.66rem; font-weight: 600; }
+  .day .sp-dicon { height: 42px; }
   .day {
     --card: #161d26; /* so icon clouds blend into this lighter tile */
     background: var(--card-2);
@@ -258,11 +280,11 @@
     text-align: center;
     font-size: 0.78rem;
   }
-  .day .d-name { font-weight: 700; }
-  .day svg.wx { width: 30px; height: 30px; margin: 6px 0; }
-  .day .d-temp { font-weight: 700; }
+  .day .d-name { font-weight: 700; height: 18px; line-height: 18px; }
+  .day svg.wx { width: 30px; height: 30px; display: block; margin: 6px auto; }
+  .day .d-temp { font-weight: 700; height: 18px; line-height: 18px; }
   .day .d-min { color: var(--muted); font-weight: 500; }
-  .day .d-x { color: var(--soft); margin-top: 4px; font-size: 0.72rem; }
+  .day .d-x { color: var(--soft); margin-top: 4px; font-size: 0.72rem; height: 18px; line-height: 18px; }
 
   /* ---------- Tides ---------- */
   .tides {
@@ -400,21 +422,22 @@ function trap() {
 
   <section class="card">
     <div class="card-head">
-      <h2 class="label">Wind · next 48 hours (knots)</h2>
-      <div class="legend"><span class="bg-ok">&lt;15</span><span class="bg-mod">15–25</span><span class="bg-high">25+</span></div>
+      <h2 class="label">Wind · Safety Beach · next 48 hrs</h2>
+      <div class="legend"><span class="meta">knots</span><span class="bg-ok">&lt;15</span><span class="bg-mod">15–25</span><span class="bg-high">25+</span></div>
     </div>
     <div class="hours" id="hours"></div>
-    <div class="hint">Swipe for more · arrows point where the wind is blowing · G = gusts</div>
+    <div class="hint">Swipe for more hours. Wind and gust speeds are in knots. The arrow shows where the wind is blowing to; “From” is where it comes from. Rain is the chance of rain that hour.</div>
   </section>
 
   <section class="card">
-    <div class="card-head"><h2 class="label">5-day forecast</h2></div>
+    <div class="card-head"><h2 class="label">5-day forecast · Safety Beach</h2></div>
     <div class="days" id="days"></div>
+    <div class="hint">High and low temperature. Wind is the day’s strongest average speed and gust its strongest gust, both in knots. Rain is the chance of rain that day.</div>
   </section>
 
   <section class="card">
     <div class="card-head">
-      <h2 class="label">Tides · estimate</h2>
+      <h2 class="label">Tides · Safety Beach · estimate</h2>
       <a class="meta" href="https://www.bom.gov.au/australia/tides/#!/vic" target="_blank" rel="noopener">Official tables ↗</a>
     </div>
     <div class="tides" id="tides">Loading tides…</div>
@@ -575,7 +598,15 @@ function trap() {
         // Hourly wind: next 48 hours from the current hour
         var start = 0, nowHour = c.time.slice(0, 13) + ":00";
         while (start < h.time.length && h.time[start] < nowHour) start++;
-        var html = "", prevDay = null;
+        var html = '<div class="hr lbl">'
+          + '<div class="h-day"></div><div class="h-time"></div>'
+          + '<div class="sp-icon"></div><div class="sp-arrow"></div>'
+          + '<div class="h-dir">From</div>'
+          + '<div class="h-spd">Wind</div>'
+          + '<div class="h-gst">Gust</div>'
+          + '<div class="h-rain">Rain</div>'
+          + '</div>';
+        var prevDay = null;
         for (var i = start; i < Math.min(start + 48, h.time.length); i++) {
           var t = parseLocal(h.time[i]), day = dayOf(t);
           var newDay = prevDay !== null && day !== prevDay;
@@ -589,21 +620,27 @@ function trap() {
             + arrowSvg(h.wind_direction_10m[i])
             + '<div class="h-dir">' + compass(h.wind_direction_10m[i]) + '</div>'
             + '<div class="h-spd bg-' + lvl(spd) + '">' + r(spd) + '</div>'
-            + '<div class="h-gst w-' + lvl(gst) + '">G' + r(gst) + '</div>'
+            + '<div class="h-gst w-' + lvl(gst) + '">' + r(gst) + '</div>'
             + '<div class="h-rain">' + (rain != null ? rain + '%' : '') + '</div>'
             + '</div>';
         }
         $("hours").innerHTML = html;
 
         // 5-day forecast
-        var dh = "";
+        var dh = '<div class="day lbl">'
+          + '<div class="d-name"></div><div class="sp-dicon"></div>'
+          + '<div class="d-temp">°C</div>'
+          + '<div class="d-x">Wind</div>'
+          + '<div class="d-x">Gust</div>'
+          + '<div class="d-x">Rain</div>'
+          + '</div>';
         for (var j = 0; j < d.time.length; j++) {
           dh += '<div class="day num">'
             + '<div class="d-name">' + (j === 0 ? "Today" : dayOf(parseLocal(d.time[j]))) + '</div>'
             + icon(d.weather_code[j], 1)
             + '<div class="d-temp">' + r(d.temperature_2m_max[j]) + '° <span class="d-min">' + r(d.temperature_2m_min[j]) + '°</span></div>'
             + '<div class="d-x">' + compass(d.wind_direction_10m_dominant[j]) + ' <span class="w-' + lvl(d.wind_speed_10m_max[j]) + '">' + r(d.wind_speed_10m_max[j]) + '</span></div>'
-            + '<div class="d-x">G <span class="w-' + lvl(d.wind_gusts_10m_max[j]) + '">' + r(d.wind_gusts_10m_max[j]) + '</span></div>'
+            + '<div class="d-x"><span class="w-' + lvl(d.wind_gusts_10m_max[j]) + '">' + r(d.wind_gusts_10m_max[j]) + '</span></div>'
             + '<div class="d-x" style="color:#7cb9f2">' + (d.precipitation_probability_max[j] != null ? d.precipitation_probability_max[j] : 0) + '%</div>'
             + '</div>';
         }
