@@ -133,32 +133,15 @@ function addToFavorites() {
       </a>
     </div>
   </div>
-<!-- The container where your live count will be displayed -->
-<p>This page has been viewed <span id="hit-count" style="font-weight: bold; color: #007bff;">Loading...</span> times.</p>
-<script>
-  // 1. Enter your GitHub details to keep your counter unique
-  const namespace = "github-pages-yourusername"; // e.g., "github-pages-johndoe"
-  const key = "your-repository-name";           // e.g., "my-portfolio"
-
-  // 2. Fetch the counter data and increment it by 1 automatically
-  fetch(`https://countapi.xyz{namespace}/${key}`)
-    .then(response => {
-      if (!response.ok) throw new Error("API network error");
-      return response.json();
-    })
-    .then(data => {
-      // 3. Add your 10,000 legacy hits directly to the recorded live database hits
-      const totalHits = data.value + 10000;
-      
-      // 4. Inject the combined total cleanly with formatting commas
-      document.getElementById("hit-count").innerText = totalHits.toLocaleString();
-    })
-    .catch(error => {
-      console.error("Counter failed to load:", error);
-      // Fallback display so users always see your legacy baseline minimum
-      document.getElementById("hit-count").innerText = "10,000+";
-    });
-</script>
+  
+<!-- The wrapper container for your counter -->
+<div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
+  This page has been viewed 
+  <!-- This script loads a clean text-only counter and forces it to start at 10,000 -->
+  <script type="text/javascript" src="https://livetrafficfeed.com"></script>
+  <noscript><a href="https://livetrafficfeed.com/hit-counter">Free Hit Counter</a></noscript>
+  times.
+</div>
 </div>
 </body>
 </html>
