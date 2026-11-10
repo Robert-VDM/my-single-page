@@ -136,24 +136,27 @@ function addToFavorites() {
 <!-- The container where your live count will be displayed -->
 <p>This page has been viewed <span id="hit-count" style="font-weight: bold; color: #007bff;">Loading...</span> times.</p>
 <script>
-  // 1. Enter your GitHub username and repository name here:
+  // 1. Enter your real GitHub details inside the quotes:
   const username = "Robert-VDM"; 
   const repoName = "my-single-page";
 
-  // 2. Fetch the counter data and increment it by 1
-  fetch(`https://counterapi.dev{username}/${repoName}/up`, { method: 'POST' })
+  // 2. Fetch the counter data using the proper CounterAPI V2 URL structure
+  fetch(`https://counterapi.dev{username}/${repoName}/up`)
     .then(response => response.json())
-    .then(data => {
-      // 3. Take the server's count and add your 24,259 legacy hits to it
-      const totalHits = data.value + 24259;
+    .then(res => {
+      // CounterAPI V2 returns data nested inside a "data" object { code: 200, data: { value: X } }
+      const serverCount = res.data ? res.data.value : 0;
       
-      // 4. Inject the total number cleanly with commas into your page
+      // 3. Add your 10,000 legacy hits mathematically
+      const totalHits = serverCount + 10000;
+      
+      // 4. Inject the total number with clear commas into your page
       document.getElementById("hit-count").innerText = totalHits.toLocaleString();
     })
     .catch(error => {
       console.error("Counter failed to load:", error);
-      // Fallback display if the API goes down temporarily
-      document.getElementById("hit-count").innerText = "24,259+";
+      // Fallback display if anything goes wrong
+      document.getElementById("hit-count").innerText = "10,000+";
     });
 </script>
 </div>
