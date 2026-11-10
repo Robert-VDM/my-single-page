@@ -133,6 +133,29 @@ function addToFavorites() {
       </a>
     </div>
   </div>
+<!-- The container where your live count will be displayed -->
+<p>This page has been viewed <span id="hit-count" style="font-weight: bold; color: #007bff;">Loading...</span> times.</p>
+<script>
+  // 1. Enter your GitHub username and repository name here:
+  const username = "Robert-VDM"; 
+  const repoName = "my-single-page";
+
+  // 2. Fetch the counter data and increment it by 1
+  fetch(`https://counterapi.dev{username}/${repoName}/up`, { method: 'POST' })
+    .then(response => response.json())
+    .then(data => {
+      // 3. Take the server's count and add your 24,259 legacy hits to it
+      const totalHits = data.value + 24259;
+      
+      // 4. Inject the total number cleanly with commas into your page
+      document.getElementById("hit-count").innerText = totalHits.toLocaleString();
+    })
+    .catch(error => {
+      console.error("Counter failed to load:", error);
+      // Fallback display if the API goes down temporarily
+      document.getElementById("hit-count").innerText = "24,259+";
+    });
+</script>
 </div>
 </body>
 </html>
