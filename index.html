@@ -3,73 +3,105 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="refresh" content="300" />
-<title>Martha Cove Marina - Web Cam</title>
-<link rel="shortcut icon" href="/favicon.ico" />
+<title>Martha Cove Marina – Live Cams, Wind and Tides</title>
+<meta name="description" content="Live web cams of Martha Cove Marina at Safety Beach, Victoria, with wind, tide and weather forecasts for sailors and boaters." />
+<meta name="theme-color" content="#07090c" />
+
+<!-- Share preview (text messages, Facebook, etc.) -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://martha-cove.com/" />
+<meta property="og:title" content="Martha Cove Marina – Live Cams, Wind and Tides" />
+<meta property="og:description" content="Live marina cams plus wind, tide and weather forecasts for Safety Beach, Victoria." />
+<meta property="og:image" content="https://martha-cove.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- Icons -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f2a3d'/%3E%3Cg fill='none' stroke='%237fd0f0' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='32' cy='15' r='5'/%3E%3Cpath d='M32 20v32M22 28h20M14 38c2 9 9 14 18 14s16-5 18-14'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="alternate icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="imagesize.css" />
+
 <style type="text/css">
+  :root {
+    --page: #07090c;
+    --card: #10151c;
+    --card-2: #161d26;
+    --line: #222b36;
+    --text: #eef2f6;
+    --muted: #8a96a3;
+    --soft: #b9c3cd;
+    --accent: #7fd0f0;
+    --ok: #6fdc8c;    --ok-bg: #12301c;
+    --mod: #ffc857;   --mod-bg: #3b2d0b;
+    --high: #ff7a7a;  --high-bg: #431616;
+  }
+
   * { box-sizing: border-box; }
 
   html, body {
     margin: 0;
     padding: 0;
-    background-color: #000000;
-    color: #FFFFFF;
-    font-family: Arial, sans-serif;
+    background: var(--page);
+    color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.45;
     /* Stop iPhone Safari enlarging text when the phone is turned sideways */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
 
-  a, a:visited { color: #FFFFFF; }
+  a, a:visited { color: var(--accent); }
 
-  .page {
-    max-width: 100%;
-    padding: 10px;
-    text-align: center;
-  }
+  .num { font-variant-numeric: tabular-nums; }
 
-  h1 {
-    font-size: 1.4rem;
-    margin: 10px 0;
+  /* ---------- Header ---------- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--card);
   }
+  .logo { width: 38px; height: 38px; flex: 0 0 38px; }
+  .brand { text-align: left; }
+  .brand h1 { margin: 0; font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+  .brand .sub { color: var(--muted); font-size: 0.8rem; display: flex; align-items: center; gap: 6px; }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #ff4d4d; display: inline-block; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 
   .intro {
-    font-size: 0.85rem;
-    margin: 0 auto 15px;
     max-width: 900px;
+    margin: 0 auto;
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--soft);
   }
 
-  /* Larger text only on big screens (desktops), not phones in landscape */
-  @media (min-width: 1100px) {
-    h1 { font-size: 2.4rem; }
-    .intro { font-size: 1.1rem; }
-  }
-
-  /* Cameras sit side by side on wide screens, stacked on narrow ones */
+  /* ---------- Cameras ---------- */
   .cams {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 0;
     width: 100%;
   }
-
-  /* Portrait: stacked, full width */
   .cam {
+    position: relative;
     flex: 0 0 100%;
     max-width: 100%;
   }
-
-  /* Landscape (phones turned sideways, and desktops): side by side */
   @media (orientation: landscape) {
-    .cam {
-      flex: 0 0 50%;
-      max-width: 50%;
-    }
+    .cam { flex: 0 0 50%; max-width: 50%; }
   }
-
-  /* Images always shrink to fit the screen width and height */
   .cam img {
     display: block;
     width: 100% !important;
@@ -78,7 +110,214 @@
     margin: 0;
     border: 0;
   }
+  .cam a { text-decoration: none; }
+  .cam-hint {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    background: rgba(7, 9, 12, 0.72);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    pointer-events: none;
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap { max-width: 960px; margin: 0 auto; padding: 12px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+  .meta { font-size: 0.72rem; color: var(--muted); }
+
+  /* ---------- Status bar ---------- */
+  .status {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .stat .k { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .stat .v { font-size: 1.05rem; font-weight: 700; margin-top: 2px; }
+  .stat .s { font-size: 0.72rem; color: var(--soft); }
+  .stat.ok   { border-color: #2a6b3d; }
+  .stat.mod  { border-color: #7a5b14; }
+  .stat.high { border-color: #8a2b2b; }
+
+  /* ---------- Official row ---------- */
+  .official {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 12px;
+    font-size: 0.8rem;
+    color: var(--soft);
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 9px 12px;
+    margin-bottom: 12px;
+  }
+  .official strong { color: var(--text); font-weight: 600; }
+  .official a { font-weight: 600; text-decoration: none; }
+
+  /* ---------- Current conditions ---------- */
+  .now {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 12px 24px;
+  }
+  .now-main { display: flex; align-items: center; gap: 12px; }
+  .now-main svg { width: 56px; height: 56px; }
+  .now-temp { font-size: 2.6rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+  .now-desc { color: var(--soft); font-size: 0.85rem; }
+  .facts {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 5px 16px;
+    font-size: 0.85rem;
+  }
+  .facts dt { color: var(--muted); margin: 0; }
+  .facts dd { margin: 0; font-weight: 600; }
+
+  /* Wind colours */
+  .w-ok   { color: var(--ok); }
+  .w-mod  { color: var(--mod); }
+  .w-high { color: var(--high); }
+  .bg-ok   { background: var(--ok-bg);   color: var(--ok); }
+  .bg-mod  { background: var(--mod-bg);  color: var(--mod); }
+  .bg-high { background: var(--high-bg); color: var(--high); }
+
+  .legend { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .legend span { font-size: 0.65rem; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+
+  /* ---------- Hourly wind ---------- */
+  .hours {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -14px;
+    padding: 0 8px 4px;
+    scrollbar-width: thin;
+  }
+  .hr { flex: 0 0 46px; text-align: center; font-size: 0.75rem; padding: 0 2px; }
+  .hr.newday { border-left: 1px solid var(--line); }
+  .h-day { font-weight: 700; min-height: 1.4em; color: var(--text); }
+  .h-time { color: var(--muted); }
+  .hr svg.wx { width: 22px; height: 22px; margin: 4px 0 2px; }
+  .hr svg.arrow { width: 16px; height: 16px; display: block; margin: 2px auto 0; color: var(--soft); }
+  .h-dir { color: var(--muted); font-size: 0.68rem; }
+  .h-spd { border-radius: 6px; margin: 4px 3px 2px; padding: 3px 0; font-weight: 700; font-size: 0.85rem; }
+  .h-gst { font-weight: 600; }
+  .h-rain { color: #7cb9f2; font-size: 0.7rem; margin-top: 2px; }
+  .hint { color: var(--muted); font-size: 0.7rem; margin-top: 6px; }
+
+  /* ---------- 5-day ---------- */
+  .days {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .day {
+    --card: #161d26; /* so icon clouds blend into this lighter tile */
+    background: var(--card-2);
+    border-radius: 10px;
+    padding: 10px 2px;
+    text-align: center;
+    font-size: 0.78rem;
+  }
+  .day .d-name { font-weight: 700; }
+  .day svg.wx { width: 30px; height: 30px; margin: 6px 0; }
+  .day .d-temp { font-weight: 700; }
+  .day .d-min { color: var(--muted); font-weight: 500; }
+  .day .d-x { color: var(--soft); margin-top: 4px; font-size: 0.72rem; }
+
+  /* ---------- Tides ---------- */
+  .tides {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: 6px;
+  }
+  .tide {
+    background: var(--card-2);
+    border-radius: 10px;
+    padding: 9px 4px;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  .tide .t-type { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tide .t-type.high { color: var(--accent); }
+  .tide .t-type.low { color: var(--soft); }
+  .tide .t-time { font-size: 1rem; font-weight: 700; }
+  .tide .t-day, .tide .t-h { color: var(--muted); font-size: 0.72rem; }
+  .small { color: var(--muted); font-size: 0.72rem; margin-top: 8px; }
+
+  /* ---------- Links ---------- */
+  .links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  @media (orientation: landscape) {
+    .links { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  .link, .link:visited {
+    display: block;
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .link span { display: block; color: var(--muted); font-weight: 400; font-size: 0.7rem; }
+
+  .foot {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.72rem;
+    padding: 6px 12px 24px;
+  }
+  .foot a { color: var(--soft); }
+
+  /* Larger text only on big screens (desktops), not phones in landscape */
+  @media (min-width: 1100px) {
+    html, body { font-size: 17px; }
+    .wrap { max-width: 1100px; }
+  }
 </style>
+
 <script type="text/javascript">
 function right(e) {
   var msg = "Function Disabled";
@@ -98,45 +337,372 @@ function trap() {
     }
   }
 }
-
-var urlAddress = "http://www.martha-cove.com";
-var pageName = "Martha Cove";
-
-function addToFavorites() {
-  if (window.external && window.external.AddFavorite) {
-    window.external.AddFavorite(urlAddress, pageName);
-  } else {
-    alert("Sorry! Your browser doesn't support this function.");
-  }
-}
 </script>
 </head>
 
 <body onload="trap()">
-<div class="page">
-  <h1>Martha Cove Marina - Web Cam</h1>
 
-  <p class="intro">
-    Latest images below. To view latest time-lapse series click anywhere in an image and a new window will open.<br />
-    In the new window you can also view an earlier series using the pop-up calendar and selecting a date and time.
-  </p>
+<header class="topbar">
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+    <rect width="64" height="64" rx="14" fill="#0f2a3d" />
+    <g fill="none" stroke="#7fd0f0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="32" cy="15" r="5" />
+      <path d="M32 20v32M22 28h20M14 38c2 9 9 14 18 14s16-5 18-14" />
+    </g>
+  </svg>
+  <div class="brand">
+    <h1>Martha Cove Marina</h1>
+    <div class="sub"><span class="live-dot" aria-hidden="true"></span>Live cams · Safety Beach, VIC</div>
+  </div>
+</header>
 
-  <div class="cams">
-    <div class="cam">
-      <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
-        <img src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0" alt="Martha Cove Marina web cam 1" />
-      </a>
-    </div>
-    <div class="cam">
-      <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175514&amp;shareID=17219942">
-        <img src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0" alt="Martha Cove Marina web cam 2" />
-      </a>
-    </div>
+<p class="intro">
+  Latest images below. To view latest time-lapse series click anywhere in an image and a new window will open.<br />
+  In the new window you can also view an earlier series using the pop-up calendar and selecting a date and time.
+</p>
+
+<div class="cams">
+  <div class="cam">
+    <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
+      <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
+           src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0" alt="Martha Cove Marina live cam 1" />
+    </a>
+  </div>
+  <div class="cam">
+    <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175514&amp;shareID=17219942">
+      <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0"
+           src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0" alt="Martha Cove Marina live cam 2" />
+    </a>
   </div>
 </div>
-<div style="display: flex; align-items: center; justify-content: center; font-family: Arial, sans-serif; margin: 20px 0; gap: 8px;">
-  <span>Page Visits :</span>
-  <script type="text/javascript" src="https://counter.websiteout.com/js/7/6/24259/0"></script>
-</div>
+
+<main class="wrap">
+
+  <div class="status" id="status">
+    <div class="stat" id="st-wind"><div class="k">Wind</div><div class="v num">–</div><div class="s">&nbsp;</div></div>
+    <div class="stat" id="st-tide"><div class="k">Next tide</div><div class="v num">–</div><div class="s">&nbsp;</div></div>
+    <div class="stat" id="st-sun"><div class="k">Sunset</div><div class="v num">–</div><div class="s">&nbsp;</div></div>
+  </div>
+
+  <div class="official">
+    <strong>Official BOM:</strong>
+    <a href="https://www.bom.gov.au/marine/lite/forecast/port-phillip-local-waters.shtml" target="_blank" rel="noopener">Port Phillip forecast ↗</a>
+    <a href="https://www.bom.gov.au/vic/warnings/" target="_blank" rel="noopener">Warnings ↗</a>
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <h2 class="label">Now · Safety Beach</h2>
+      <span class="meta" id="updated">Loading…</span>
+    </div>
+    <div class="now" id="now">Loading weather…</div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2 class="label">Wind · next 48 hours (knots)</h2>
+      <div class="legend"><span class="bg-ok">&lt;15</span><span class="bg-mod">15–25</span><span class="bg-high">25+</span></div>
+    </div>
+    <div class="hours" id="hours"></div>
+    <div class="hint">Swipe for more · arrows point where the wind is blowing · G = gusts</div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2 class="label">5-day forecast</h2></div>
+    <div class="days" id="days"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2 class="label">Tides · estimate</h2>
+      <a class="meta" href="https://www.bom.gov.au/australia/tides/#!/vic" target="_blank" rel="noopener">Official tables ↗</a>
+    </div>
+    <div class="tides" id="tides">Loading tides…</div>
+    <div class="small">Model estimate, may differ by up to an hour in the bay. Heights relative to mean sea level.</div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2 class="label">Ramp cam, observed wind and radar</h2></div>
+    <div class="links">
+      <a class="link" href="https://www.boating.vic.gov.au/ramps/a157F000001P6QmQAK" target="_blank" rel="noopener">Safety Beach ramp<span>Boating Vic cam</span></a>
+      <a class="link" href="https://www.bom.gov.au/products/IDV60801/IDV60801.95872.shtml" target="_blank" rel="noopener">Fawkner Beacon<span>BOM station</span></a>
+      <a class="link" href="https://www.bom.gov.au/products/IDV60801/IDV60801.94853.shtml" target="_blank" rel="noopener">South Channel Is.<span>BOM station</span></a>
+      <a class="link" href="https://www.bom.gov.au/products/IDR023.loop.shtml" target="_blank" rel="noopener">Melbourne radar<span>Rain loop</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  Forecasts are model estimates and not for navigation — always check BOM before heading out.<br />
+  Weather and tide data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a>
+</footer>
+
+<script type="text/javascript">
+(function () {
+  var LAT = -38.316, LON = 144.997; // Safety Beach, VIC
+  var TZ = "Australia%2FMelbourne";
+
+  var WX_URL = "https://api.open-meteo.com/v1/forecast"
+    + "?latitude=" + LAT + "&longitude=" + LON
+    + "&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,"
+    + "wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation,is_day"
+    + "&hourly=weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation_probability,is_day"
+    + "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,"
+    + "wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,sunrise,sunset,uv_index_max"
+    + "&wind_speed_unit=kn&timezone=" + TZ + "&forecast_days=5";
+
+  // Tide model points: Safety Beach first, then further out in case the
+  // model treats the shoreline point as land.
+  var TIDE_POINTS = [[-38.316, 144.997], [-38.31, 144.97], [-38.30, 144.93]];
+
+  var DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  /* ---------- Icons (one consistent line style) ---------- */
+  var C_SUN = "#f6c453", C_MOON = "#e2dcb8", C_CLOUD = "#c7d1dc", C_RAIN = "#6fb6ff";
+  var CLOUD = "M6.5 18h11a3.5 3.5 0 0 0 .4-6.98 5 5 0 0 0-9.7-1.1A4 4 0 0 0 6.5 18z";
+  function svg(inner) {
+    return '<svg class="wx" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + '</svg>';
+  }
+  function sun(cx, cy, r, ray) {
+    var s = '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="' + C_SUN + '"/>';
+    for (var a = 0; a < 8; a++) {
+      var ang = a * Math.PI / 4, x1 = cx + Math.cos(ang) * (r + 2), y1 = cy + Math.sin(ang) * (r + 2);
+      var x2 = cx + Math.cos(ang) * (r + 2 + ray), y2 = cy + Math.sin(ang) * (r + 2 + ray);
+      s += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="' + C_SUN + '"/>';
+    }
+    return s;
+  }
+  function moon(t) { return '<path transform="' + (t || "") + '" d="M15.5 4.5a7.5 7.5 0 1 0 4 13.8A8.5 8.5 0 0 1 15.5 4.5z" stroke="' + C_MOON + '"/>'; }
+  function cloud(t) { return '<path transform="' + (t || "") + '" d="' + CLOUD + '" stroke="' + C_CLOUD + '" style="fill: var(--card)"/>'; }
+
+  var ICONS = {
+    clearDay:   function () { return svg(sun(12, 12, 4, 2.5)); },
+    clearNight: function () { return svg(moon()); },
+    partDay:    function () { return svg(sun(8.5, 8.5, 3, 1.8) + cloud("translate(2.5 2.5)")); },
+    partNight:  function () { return svg(moon("translate(-4 -3) scale(0.75)") + cloud("translate(2.5 2.5)")); },
+    cloudy:     function () { return svg(cloud("translate(0 1)")); },
+    fog:        function () { return svg(cloud("translate(0 -3)") + '<path d="M5 18.5h14M7 21.5h10" stroke="' + C_CLOUD + '"/>'); },
+    drizzle:    function () { return svg(cloud("translate(0 -3.5)") + '<path d="M9 18v1M12 19.5v1M15 18v1" stroke="' + C_RAIN + '"/>'); },
+    rain:       function () { return svg(cloud("translate(0 -3.5)") + '<path d="M9 17.5l-1 3M12.5 17.5l-1 3M16 17.5l-1 3" stroke="' + C_RAIN + '"/>'); },
+    snow:       function () { return svg(cloud("translate(0 -3.5)") + '<path d="M9 18.5h.01M12 20.5h.01M15 18.5h.01M10.5 21.5h.01M13.5 17.5h.01" stroke="#ffffff" stroke-width="2.2"/>'); },
+    storm:      function () { return svg(cloud("translate(0 -3.5)") + '<path d="M12.5 15.5l-2 3.5h3l-2 3.5" stroke="' + C_SUN + '"/>'); }
+  };
+
+  // WMO weather codes -> [description, day icon, night icon]
+  function code(c) {
+    if (c === 0) return ["Clear", "clearDay", "clearNight"];
+    if (c === 1) return ["Mostly clear", "partDay", "partNight"];
+    if (c === 2) return ["Partly cloudy", "partDay", "partNight"];
+    if (c === 3) return ["Cloudy", "cloudy", "cloudy"];
+    if (c === 45 || c === 48) return ["Fog", "fog", "fog"];
+    if (c >= 51 && c <= 57) return ["Drizzle", "drizzle", "drizzle"];
+    if ((c >= 61 && c <= 67) || (c >= 80 && c <= 82)) return [c === 65 || c === 82 ? "Heavy rain" : (c >= 80 ? "Showers" : "Rain"), "rain", "rain"];
+    if ((c >= 71 && c <= 77) || c === 85 || c === 86) return ["Snow", "snow", "snow"];
+    if (c >= 95) return ["Thunderstorm", "storm", "storm"];
+    return ["—", "cloudy", "cloudy"];
+  }
+  function icon(c, isDay) { var i = code(c); return ICONS[isDay ? i[1] : i[2]](); }
+
+  function arrowSvg(fromDeg) {
+    // Wind direction is where it comes FROM; the arrow points where it blows TO
+    return '<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(' + Math.round(fromDeg + 180) + 'deg)" aria-hidden="true"><path d="M12 20V4M6 10l6-6 6 6"/></svg>';
+  }
+
+  /* ---------- Helpers ---------- */
+  function $(id) { return document.getElementById(id); }
+  function r(n) { return Math.round(n); }
+  function compass(deg) {
+    var dirs = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+    return dirs[Math.round(deg / 22.5) % 16];
+  }
+  function lvl(kn) { return kn > 25 ? "high" : (kn >= 15 ? "mod" : "ok"); }
+
+  // Open-Meteo local time strings are handled as UTC internally so the
+  // visitor's own time zone never shifts them.
+  function parseLocal(s) {
+    var p = s.split(/[-T:]/);
+    return Date.UTC(+p[0], +p[1] - 1, +p[2], +(p[3] || 0), +(p[4] || 0));
+  }
+  function fmtTime(ms) {
+    var d = new Date(ms), h = d.getUTCHours(), m = d.getUTCMinutes();
+    var ap = h < 12 ? "am" : "pm";
+    h = h % 12 || 12;
+    return h + (m ? ":" + (m < 10 ? "0" : "") + m : "") + ap;
+  }
+  function dayOf(ms) { return DAYS[new Date(ms).getUTCDay()]; }
+  function melbNow() {
+    var s = new Date().toLocaleString("sv-SE", { timeZone: "Australia/Melbourne" }).replace(" ", "T");
+    return parseLocal(s);
+  }
+  function setStat(id, value, sub, level) {
+    var el = $(id);
+    el.className = "stat" + (level ? " " + level : "");
+    el.querySelector(".v").innerHTML = value;
+    el.querySelector(".s").innerHTML = sub || "&nbsp;";
+  }
+
+  /* ---------- Weather ---------- */
+  function loadWeather() {
+    return fetch(WX_URL)
+      .then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
+      .then(function (data) {
+        var c = data.current, d = data.daily, h = data.hourly;
+        var info = code(c.weather_code);
+        var wl = lvl(Math.max(c.wind_speed_10m, c.wind_gusts_10m - 5));
+
+        // Status bar
+        setStat("st-wind",
+          '<span class="w-' + lvl(c.wind_speed_10m) + '">' + compass(c.wind_direction_10m) + ' ' + r(c.wind_speed_10m) + '</span>',
+          'gusting <span class="w-' + lvl(c.wind_gusts_10m) + '">' + r(c.wind_gusts_10m) + '</span> kn', wl);
+        var now = melbNow(), sunset = parseLocal(d.sunset[0]), sunrise = parseLocal(d.sunrise[1] || d.sunrise[0]);
+        if (now < sunset) setStat("st-sun", fmtTime(sunset), "today");
+        else { $("st-sun").querySelector(".k").textContent = "Sunrise"; setStat("st-sun", fmtTime(sunrise), "tomorrow"); }
+
+        // Current conditions
+        $("now").innerHTML =
+          '<div class="now-main">' + icon(c.weather_code, c.is_day)
+          + '<div><div class="now-temp num">' + r(c.temperature_2m) + '°</div>'
+          + '<div class="now-desc">' + info[0] + ' · feels ' + r(c.apparent_temperature) + '°</div></div></div>'
+          + '<dl class="facts num">'
+          + '<dt>Wind</dt><dd class="w-' + lvl(c.wind_speed_10m) + '">' + compass(c.wind_direction_10m) + ' ' + r(c.wind_speed_10m) + ' kn</dd>'
+          + '<dt>Gusts</dt><dd class="w-' + lvl(c.wind_gusts_10m) + '">' + r(c.wind_gusts_10m) + ' kn</dd>'
+          + '<dt>Humidity</dt><dd>' + c.relative_humidity_2m + '%</dd>'
+          + '<dt>Rain</dt><dd>' + c.precipitation + ' mm</dd>'
+          + '<dt>Sun</dt><dd>' + fmtTime(parseLocal(d.sunrise[0])) + ' – ' + fmtTime(parseLocal(d.sunset[0])) + '</dd>'
+          + '<dt>UV max</dt><dd>' + (d.uv_index_max[0] != null ? r(d.uv_index_max[0]) : "—") + '</dd>'
+          + '</dl>';
+
+        // Hourly wind: next 48 hours from the current hour
+        var start = 0, nowHour = c.time.slice(0, 13) + ":00";
+        while (start < h.time.length && h.time[start] < nowHour) start++;
+        var html = "", prevDay = null;
+        for (var i = start; i < Math.min(start + 48, h.time.length); i++) {
+          var t = parseLocal(h.time[i]), day = dayOf(t);
+          var newDay = prevDay !== null && day !== prevDay;
+          var label = prevDay === null ? "Now" : (newDay ? day : "");
+          prevDay = day;
+          var spd = h.wind_speed_10m[i], gst = h.wind_gusts_10m[i], rain = h.precipitation_probability[i];
+          html += '<div class="hr num' + (newDay ? ' newday' : '') + '">'
+            + '<div class="h-day">' + label + '</div>'
+            + '<div class="h-time">' + fmtTime(t) + '</div>'
+            + icon(h.weather_code[i], h.is_day[i])
+            + arrowSvg(h.wind_direction_10m[i])
+            + '<div class="h-dir">' + compass(h.wind_direction_10m[i]) + '</div>'
+            + '<div class="h-spd bg-' + lvl(spd) + '">' + r(spd) + '</div>'
+            + '<div class="h-gst w-' + lvl(gst) + '">G' + r(gst) + '</div>'
+            + '<div class="h-rain">' + (rain != null ? rain + '%' : '') + '</div>'
+            + '</div>';
+        }
+        $("hours").innerHTML = html;
+
+        // 5-day forecast
+        var dh = "";
+        for (var j = 0; j < d.time.length; j++) {
+          dh += '<div class="day num">'
+            + '<div class="d-name">' + (j === 0 ? "Today" : dayOf(parseLocal(d.time[j]))) + '</div>'
+            + icon(d.weather_code[j], 1)
+            + '<div class="d-temp">' + r(d.temperature_2m_max[j]) + '° <span class="d-min">' + r(d.temperature_2m_min[j]) + '°</span></div>'
+            + '<div class="d-x">' + compass(d.wind_direction_10m_dominant[j]) + ' <span class="w-' + lvl(d.wind_speed_10m_max[j]) + '">' + r(d.wind_speed_10m_max[j]) + '</span></div>'
+            + '<div class="d-x">G <span class="w-' + lvl(d.wind_gusts_10m_max[j]) + '">' + r(d.wind_gusts_10m_max[j]) + '</span></div>'
+            + '<div class="d-x" style="color:#7cb9f2">' + (d.precipitation_probability_max[j] != null ? d.precipitation_probability_max[j] : 0) + '%</div>'
+            + '</div>';
+        }
+        $("days").innerHTML = dh;
+
+        var upd;
+        try { upd = new Date().toLocaleTimeString("en-AU", { timeZone: "Australia/Melbourne", hour: "numeric", minute: "2-digit" }); }
+        catch (e) { upd = new Date().toLocaleTimeString(); }
+        $("updated").textContent = "Updated " + upd;
+      })
+      .catch(function () {
+        $("now").textContent = "Weather is unavailable right now.";
+        $("updated").textContent = "";
+      });
+  }
+
+  /* ---------- Tides ---------- */
+  function tideUrl(pt) {
+    return "https://marine-api.open-meteo.com/v1/marine?latitude=" + pt[0] + "&longitude=" + pt[1]
+      + "&hourly=sea_level_height_msl&timezone=" + TZ + "&forecast_days=3";
+  }
+
+  function findTides(times, vals) {
+    var out = [];
+    for (var i = 1; i < vals.length - 1; i++) {
+      var a = vals[i - 1], b = vals[i], c = vals[i + 1];
+      if (a == null || b == null || c == null) continue;
+      var isHigh = b >= a && b > c, isLow = b <= a && b < c;
+      if (!isHigh && !isLow) continue;
+      // Fit a curve through the three points to estimate the exact turning time
+      var den = a - 2 * b + c;
+      var off = den !== 0 ? (a - c) / (2 * den) : 0;
+      if (off > 0.5) off = 0.5;
+      if (off < -0.5) off = -0.5;
+      out.push({ type: isHigh ? "High" : "Low", time: parseLocal(times[i]) + off * 3600000, height: b - 0.25 * (a - c) * off });
+    }
+    return out;
+  }
+
+  function tidesUnavailable() {
+    $("tides").textContent = "Tide estimates are unavailable right now — see the official tables.";
+    setStat("st-tide", "–", "see BOM tables");
+  }
+
+  function loadTides(idx) {
+    idx = idx || 0;
+    if (idx >= TIDE_POINTS.length) { tidesUnavailable(); return Promise.resolve(); }
+    return fetch(tideUrl(TIDE_POINTS[idx]))
+      .then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
+      .then(function (data) {
+        var h = data.hourly || {}, vals = h.sea_level_height_msl || [];
+        if (!vals.some(function (v) { return v != null; })) return loadTides(idx + 1);
+
+        var now = melbNow();
+        var tides = findTides(h.time, vals).filter(function (t) { return t.time >= now; }).slice(0, 6);
+        if (!tides.length) throw new Error("no tides");
+
+        var today = dayOf(now), html = "";
+        tides.forEach(function (t) {
+          var when = fmtTime(Math.round(t.time / 300000) * 300000), dn = dayOf(t.time);
+          html += '<div class="tide num">'
+            + '<div class="t-type ' + t.type.toLowerCase() + '">' + (t.type === "High" ? "▲ High" : "▼ Low") + '</div>'
+            + '<div class="t-time">' + when + '</div>'
+            + '<div class="t-day">' + (dn === today ? "Today" : dn) + ' · ' + (t.height >= 0 ? "+" : "−") + Math.abs(t.height).toFixed(1) + ' m</div>'
+            + '</div>';
+        });
+        $("tides").innerHTML = html;
+
+        var nx = tides[0], nd = dayOf(nx.time);
+        setStat("st-tide", fmtTime(Math.round(nx.time / 300000) * 300000), (nx.type === "High" ? "High" : "Low") + (nd === today ? " today" : " " + nd));
+      })
+      .catch(tidesUnavailable);
+  }
+
+  /* ---------- Cam images: refresh without reloading the page ---------- */
+  function refreshCams() {
+    Array.prototype.forEach.call(document.querySelectorAll("img.camimg"), function (img) {
+      var base = img.getAttribute("data-src"), next = new Image();
+      next.onload = function () { img.src = next.src; }; // swap only once loaded, so no flicker
+      next.src = base + (base.indexOf("?") > -1 ? "&" : "?") + "t=" + Date.now();
+    });
+  }
+
+  var lastRefresh = Date.now();
+  function refreshData() { loadWeather(); loadTides(); }
+
+  refreshData();
+  setInterval(refreshCams, 5 * 60 * 1000);      // cams every 5 minutes
+  setInterval(refreshData, 10 * 60 * 1000);     // weather and tides every 10 minutes
+
+  // When someone returns to the tab or unlocks their phone, update straight away
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible" && Date.now() - lastRefresh > 2 * 60 * 1000) {
+      lastRefresh = Date.now();
+      refreshCams();
+      refreshData();
+    }
+  });
+})();
+</script>
 </body>
 </html>
