@@ -89,10 +89,34 @@
 
   /* ---------- Cameras ---------- */
   .cams {
+    width: 100%;
+    padding: 12px 12px 0; /* small margin so the images don't run to the screen edges */
+  }
+  /* Frame around both cams, matching the cards below */
+  .cam-frame {
     display: flex;
     flex-wrap: wrap;
     gap: 0;
-    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 5px;
+  }
+  .cam-frame .cam:first-child img { border-radius: 7px 7px 0 0; }
+  .cam-frame .cam:last-child img  { border-radius: 0 0 7px 7px; }
+  @media (orientation: landscape) {
+    .cam-frame .cam:first-child img { border-radius: 7px 0 0 7px; }
+    .cam-frame .cam:last-child img  { border-radius: 0 7px 7px 0; }
+  }
+
+  /* Time-lapse note sitting right under the cams */
+  .cam-note {
+    margin: 6px auto 0;
+    padding: 0 12px;
+    max-width: 960px;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--muted);
   }
   .cam {
     position: relative;
@@ -332,6 +356,23 @@
     padding: 6px 12px 24px;
   }
   .foot a { color: var(--soft); }
+  .visits {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  /* Recolour the WebSiteOut digit image to match the page: muted grey digits,
+     tiles fading into the dark background. Appearance only — counting is unchanged. */
+  .visits img {
+    height: 14px;
+    width: auto;
+    vertical-align: middle;
+    filter: grayscale(1) brightness(0.62) contrast(1.2);
+    mix-blend-mode: lighten;
+    border-radius: 2px;
+  }
 
   /* Larger text only on big screens (desktops), not phones in landscape */
   @media (min-width: 1100px) {
@@ -378,6 +419,7 @@ function trap() {
   </div>
 </header>
 <div class="cams">
+ <div class="cam-frame">
   <div class="cam">
     <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
       <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
@@ -390,12 +432,9 @@ function trap() {
            src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0" alt="Martha Cove Marina live cam 2" />
     </a>
   </div>
+ </div>
 </div>
-<p class="intro">
-<div style="display: flex; align-items: center; font-size: 0.72rem; justify-content: center; font-family: Arial, sans-serif; margin: 20px 0; gap: 8px;">
-  Click in image to view latest time-lapse series. View an earlier series by selecting another start date.
-</div>
-</p>
+<p class="cam-note">Click in image to view latest time-lapse series. View an earlier series by selecting another start date.</p>
 
 <main class="wrap">
 
@@ -457,6 +496,10 @@ function trap() {
 <footer class="foot">
   Forecasts are model estimates and not for navigation — always check BOM before heading out.<br />
   Weather and tide data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a>
+  <div class="visits">
+    <span>Page visits</span>
+    <script type="text/javascript" src="https://counter.websiteout.com/js/7/6/24259/0"></script>
+  </div>
 </footer>
 
 <script type="text/javascript">
@@ -740,9 +783,5 @@ function trap() {
   });
 })();
 </script>
-<div style="display: flex; align-items: center; font-size: 0.72rem; justify-content: center; font-family: Arial, sans-serif; margin: 20px 0; gap: 8px;">
-  <span>Page Visits :</span>
-  <script type="text/javascript" src="https://counter.websiteout.com/js/7/6/24259/0"></script>
-</div>
 </body>
 </html>
