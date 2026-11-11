@@ -613,12 +613,11 @@ function trap() {
       .then(function (data) {
         var c = data.current, d = data.daily, h = data.hourly;
         var info = code(c.weather_code);
-        var wl = lvl(Math.max(c.wind_speed_10m, c.wind_gusts_10m - 5));
 
         // Status bar
         setStat("st-wind",
           '<span class="w-' + lvl(c.wind_speed_10m) + '">' + compass(c.wind_direction_10m) + ' ' + r(c.wind_speed_10m) + '</span>',
-          'gusting <span class="w-' + lvl(c.wind_gusts_10m) + '">' + r(c.wind_gusts_10m) + '</span> kn', wl);
+          'gusting <span class="w-' + lvl(c.wind_gusts_10m) + '">' + r(c.wind_gusts_10m) + '</span> kn');
         var now = melbNow(), sunset = parseLocal(d.sunset[0]), sunrise = parseLocal(d.sunrise[1] || d.sunrise[0]);
         if (now < sunset) setStat("st-sun", fmtTime(sunset), "today");
         else { $("st-sun").querySelector(".k").textContent = "Sunrise"; setStat("st-sun", fmtTime(sunrise), "tomorrow"); }
