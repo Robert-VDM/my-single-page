@@ -17,9 +17,13 @@ function formatTime(isoString) {
 }
 
 async function run() {
+  console.log('Fetching:', API_URL);
   const res = await fetch(API_URL);
-  if (!res.ok) throw new Error('Weather API error: ' + res.status);
-  const data = await res.json();
+  const text = await res.text();
+  if (!res.ok || text.trim().startsWith('<')) {
+    throw new Error('Bad response (' + res.status + '): ' + text.slice(0, 120));
+  }
+  const data = JSON.parse(text);
 
   const temp = Math.round(data.current.temperature_2m);
   const windKn = Math.round(data.current.wind_speed_10m);
