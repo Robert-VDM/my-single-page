@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const API_URL = [
-  'https://api.' + ':open-meteo.com',
+  'https:api.' + ':open-meteo.com',
   '?latitude=-38.308&longitude=144.996',
   '&current=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
   '&daily=sunset&wind_speed_unit=kn',
