@@ -449,26 +449,31 @@ function trap() {
       img.dataset.baseUrl = img.getAttribute("data-src") || img.src;
     });
 
-    function refreshAllCams() {
-      const timestamp = Date.now();
-      cams.forEach(img => {
-        const freshUrl = `${img.dataset.baseUrl}&t=${timestamp}`;
-        const preloader = new Image();
+    async function refreshAllCams() {
+      for (const img of cams) {
+        try {
+          const response = await fetch(img.dataset.baseUrl, { cache: "reload" });
+          if (!response.ok) continue;
 
-        preloader.onload = function() {
-          img.src = freshUrl;
-          img.setAttribute("data-src", freshUrl);
-        };
+          const blob = await response.blob();
+          const objectUrl = URL.createObjectURL(blob);
 
-        preloader.src = freshUrl;
-      });
+          if (img.dataset.prevBlob) {
+            URL.revokeObjectURL(img.dataset.prevBlob);
+          }
+          img.dataset.prevBlob = objectUrl;
+          img.src = objectUrl;
+        } catch (err) {
+          // If fetch is blocked by CORS or network error, fall back to the clean original URL
+          img.src = img.dataset.baseUrl;
+        }
+      }
     }
 
     refreshAllCams();
     setInterval(refreshAllCams, 15 * 60 * 1000);
   })();
 </script>
-
 
 <p class="cam-note">Click in image to view time-lapse series. View an earlier series by selecting another start date.</p>
 
