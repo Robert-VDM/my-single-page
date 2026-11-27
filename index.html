@@ -429,14 +429,18 @@ function trap() {
  <div class="cam-frame">
   <div class="cam">
     <a href="https://cameraftp.com">
-      <img class="camimg" data-src="https://drivehq.com"
-           src="https://drivehq.com" alt="View time-lapse series for cam 1" >
+      <img class="camimg"
+           data-base="https://drivehq.com"
+           src="https://drivehq.com"
+           alt="View time-lapse series for cam 1">
     </a>
   </div>
   <div class="cam">
     <a href="https://cameraftp.com">
-      <img class="camimg" data-src="https://drivehq.com"
-           src="https://drivehq.com" alt="View time-lapse series for cam 2" >
+      <img class="camimg"
+           data-base="https://drivehq.com"
+           src="https://drivehq.com"
+           alt="View time-lapse series for cam 2">
     </a>
   </div>
  </div>
@@ -445,35 +449,27 @@ function trap() {
 <script>
   (function() {
     const cams = document.querySelectorAll(".camimg");
-    cams.forEach(img => {
-      img.dataset.baseUrl = img.getAttribute("data-src") || img.src;
-    });
 
-    async function refreshAllCams() {
-      for (const img of cams) {
-        try {
-          const response = await fetch(img.dataset.baseUrl, { cache: "reload" });
-          if (!response.ok) continue;
+    function refreshAllCams() {
+      const timestamp = Date.now();
+      cams.forEach(img => {
+        const baseUrl = img.getAttribute("data-base");
+        const freshUrl = baseUrl + "&t=" + timestamp;
+        const preloader = new Image();
 
-          const blob = await response.blob();
-          const objectUrl = URL.createObjectURL(blob);
+        preloader.onload = function() {
+          img.src = freshUrl;
+        };
 
-          if (img.dataset.prevBlob) {
-            URL.revokeObjectURL(img.dataset.prevBlob);
-          }
-          img.dataset.prevBlob = objectUrl;
-          img.src = objectUrl;
-        } catch (err) {
-          // If fetch is blocked by CORS or network error, fall back to the clean original URL
-          img.src = img.dataset.baseUrl;
-        }
-      }
+        preloader.src = freshUrl;
+      });
     }
 
     refreshAllCams();
     setInterval(refreshAllCams, 15 * 60 * 1000);
   })();
 </script>
+
 
 <p class="cam-note">Click in image to view time-lapse series. View an earlier series by selecting another start date.</p>
 
