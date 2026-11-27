@@ -428,17 +428,19 @@ function trap() {
 <div class="cams">
  <div class="cam-frame">
   <div class="cam">
+    <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
       <img class="camimg" referrerpolicy="no-referrer"
-<a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
-      <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
+           data-base="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
+           data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
            src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
            alt="View time-lapse series for cam 1">
     </a>
   </div>
   <div class="cam">
+    <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175514&amp;shareID=17219942">
       <img class="camimg" referrerpolicy="no-referrer"
-<a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175514&amp;shareID=17219942">
-      <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0"
+           data-base="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0"
+           data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0"
            src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0"
            alt="View time-lapse series for cam 2">
     </a>
@@ -454,12 +456,14 @@ function trap() {
       const ts = Date.now();
       cams.forEach(img => {
         const baseUrl = img.getAttribute("data-base");
+        if (!baseUrl) return;
         const freshUrl = baseUrl + "&t=" + ts;
         const preloader = new Image();
         preloader.referrerPolicy = "no-referrer";
 
         preloader.onload = function() {
           img.src = freshUrl;
+          img.setAttribute("data-src", freshUrl);
         };
 
         preloader.src = freshUrl;
@@ -470,6 +474,7 @@ function trap() {
     setInterval(refreshAllCams, 15 * 60 * 1000);
   })();
 </script>
+
 
 <p class="cam-note">Click in image to view time-lapse series. View an earlier series by selecting another start date.</p>
 
