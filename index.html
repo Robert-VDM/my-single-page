@@ -426,34 +426,13 @@ function trap() {
   </div>
 </header>
 <div class="cams">
-  <div class="cam-frame">
-    <div class="cam">
-      <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
-        <img id="cam1" class="camimg"
-             data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
-             src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
-             alt="View time-lapse series for cam 1">
-      </a>
-    </div>
+ <div class="cam-frame">
+  <div class="cam">
+    <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
+      <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
+           src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0" alt="View time-lapse series for cam 1" >
+    </a>
   </div>
-</div>
-
-<script>
-  (function() {
-    const img = document.getElementById("cam1");
-    const baseUrl = "https://drivehq.com";
-
-    function refreshCam() {
-      const freshUrl = baseUrl + "&t=" + Date.now();
-      img.src = freshUrl;
-      img.setAttribute("data-src", freshUrl);
-    }
-
-    refreshCam();
-    setInterval(refreshCam, 15 * 60 * 1000);
-  })();
-</script>
-
   <div class="cam">
     <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175514&amp;shareID=17219942">
       <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0"
@@ -462,6 +441,28 @@ function trap() {
   </div>
  </div>
 </div>
+
+<script>
+  (function() {
+    const cams = document.querySelectorAll(".camimg");
+    cams.forEach(img => {
+      img.dataset.baseUrl = img.getAttribute("data-src") || img.src;
+    });
+
+    function refreshAllCams() {
+      const timestamp = Date.now();
+      cams.forEach(img => {
+        const freshUrl = `${img.dataset.baseUrl}&t=${timestamp}`;
+        img.src = freshUrl;
+        img.setAttribute("data-src", freshUrl);
+      });
+    }
+
+    refreshAllCams();
+    setInterval(refreshAllCams, 15 * 60 * 1000);
+  })();
+</script>
+
 <p class="cam-note">Click in image to view time-lapse series. View an earlier series by selecting another start date.</p>
 
 <main class="wrap">
