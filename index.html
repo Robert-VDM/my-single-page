@@ -426,13 +426,34 @@ function trap() {
   </div>
 </header>
 <div class="cams">
- <div class="cam-frame">
-  <div class="cam">
-    <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
-      <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
-           src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0" alt="View time-lapse series for cam 1" >
-    </a>
+  <div class="cam-frame">
+    <div class="cam">
+      <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175512&amp;shareID=17219949">
+        <img id="cam1" class="camimg"
+             data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
+             src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219949&amp;index=0"
+             alt="View time-lapse series for cam 1">
+      </a>
+    </div>
   </div>
+</div>
+
+<script>
+  (function() {
+    const img = document.getElementById("cam1");
+    const baseUrl = "https://drivehq.com";
+
+    function refreshCam() {
+      const freshUrl = baseUrl + "&t=" + Date.now();
+      img.src = freshUrl;
+      img.setAttribute("data-src", freshUrl);
+    }
+
+    refreshCam();
+    setInterval(refreshCam, 15 * 60 * 1000);
+  })();
+</script>
+
   <div class="cam">
     <a href="https://www.cameraftp.com/Camera/Cameraplayer.aspx?parentID=354175514&amp;shareID=17219942">
       <img class="camimg" data-src="https://cameraftpapi.drivehq.com/api/Camera/GetLastCameraImage.aspx?shareID=17219942&amp;index=0"
@@ -508,7 +529,7 @@ function trap() {
   <div class="visits">
     <span>Page visits</span>
     <script src="https://counter.websiteout.com/js/7/6/24259/0"></script>
-  <script src="https://revolvermaps2.com/embed.js" data-site="92k8nyay2cm9" data-size="200" data-theme="blue" data-color="ffb23f" async></script>
+  <script src="https://revolvermaps2.com/embed.js" data-site="92k8nyay2cm9" data-size="200" data-theme="blue" data-color="ffb23f"></script>
   </div>
 </footer>
 
