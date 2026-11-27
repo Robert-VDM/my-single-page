@@ -447,7 +447,7 @@ function trap() {
   </div>
  </div>
  <div id="cam-status" style="margin-top: 8px; font-size: 0.72rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; text-align: center;">
-   <span>Last refreshed: <strong id="cam-last-checked">—</strong></span>
+   <span>Last refreshed at <strong id="cam-last-checked">—</strong></span>
    <span>·</span>
    <span>Next refresh in <strong id="cam-countdown">15:00</strong></span>
    <span>·</span>
@@ -536,7 +536,10 @@ function trap() {
       refreshBtn.addEventListener("click", refreshAllCams);
     }
 
-    refreshAllCams();
+    // Set initial timestamp from the HTML's initial image load without re-downloading
+    if (lastCheckedEl) {
+      lastCheckedEl.textContent = formatMelbourneTime(new Date());
+    }
     setInterval(updateCountdown, 1000);
   })();
 </script>
