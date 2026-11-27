@@ -430,7 +430,8 @@ function trap() {
   <div class="cam">
     <a href="https://cameraftp.com">
       <img class="camimg"
-           data-base="https://drivehq.com"
+           data-share="17219949"
+           data-src="https://drivehq.com"
            src="https://drivehq.com"
            alt="View time-lapse series for cam 1">
     </a>
@@ -438,7 +439,8 @@ function trap() {
   <div class="cam">
     <a href="https://cameraftp.com">
       <img class="camimg"
-           data-base="https://drivehq.com"
+           data-share="17219942"
+           data-src="https://drivehq.com"
            src="https://drivehq.com"
            alt="View time-lapse series for cam 2">
     </a>
@@ -447,28 +449,29 @@ function trap() {
 </div>
 
 <script>
-  (function() {
+  window.addEventListener("load", function() {
     const cams = document.querySelectorAll(".camimg");
 
     function refreshAllCams() {
-      const timestamp = Date.now();
+      const ts = Date.now();
       cams.forEach(img => {
-        const baseUrl = img.getAttribute("data-base");
-        const freshUrl = baseUrl + "&t=" + timestamp;
-        const preloader = new Image();
+        const shareId = img.getAttribute("data-share");
+        const freshUrl = `https://drivehq.com{shareId}/index0/cam_${ts}.jpg`;
 
+        const preloader = new Image();
         preloader.onload = function() {
           img.src = freshUrl;
+          img.setAttribute("data-src", freshUrl);
         };
-
         preloader.src = freshUrl;
       });
     }
 
     refreshAllCams();
     setInterval(refreshAllCams, 15 * 60 * 1000);
-  })();
+  });
 </script>
+
 
 
 <p class="cam-note">Click in image to view time-lapse series. View an earlier series by selecting another start date.</p>
