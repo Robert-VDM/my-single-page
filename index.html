@@ -446,14 +446,41 @@ function trap() {
     </a>
   </div>
  </div>
+ <div id="cam-status" style="margin-top: 8px; font-size: 0.85em; opacity: 0.8; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+   <span>Last checked: <strong id="cam-last-checked">—</strong></span>
+   <span>·</span>
+   <span>Next refresh in <strong id="cam-countdown">15:00</strong></span>
+   <span>·</span>
+   <button id="cam-refresh-btn" type="button" style="background: none; border: none; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit;">Refresh now</button>
+ </div>
 </div>
 
 <script>
   (function() {
+    const REFRESH_MS = 15 * 60 * 1000;
     const cams = document.querySelectorAll(".camimg");
+    const lastCheckedEl = document.getElementById("cam-last-checked");
+    const countdownEl = document.getElementById("cam-countdown");
+    const refreshBtn = document.getElementById("cam-refresh-btn");
+    let nextRefreshTime = Date.now() + REFRESH_MS;
+
+    function formatMelbourneTime(date) {
+      return date.toLocaleTimeString("en-AU", {
+        timeZone: "Australia/Melbourne",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+      }).toLowerCase();
+    }
 
     function refreshAllCams() {
-      const ts = Date.now();
+      const now = new Date();
+      const ts = now.getTime();
+      nextRefreshTime = ts + REFRESH_MS;
+      if (lastCheckedEl) lastCheckedEl.textContent = formatMelbourneTime(now);
+      if (refreshBtn) refreshBtn.textContent = "Checking…";
+
+      let completed = 0;
       cams.forEach(img => {
         const baseUrl = img.getAttribute("data-base");
         if (!baseUrl) return;
@@ -464,16 +491,44 @@ function trap() {
         preloader.onload = function() {
           img.src = freshUrl;
           img.setAttribute("data-src", freshUrl);
+          done();
         };
 
+        preloader.onerror = done;
         preloader.src = freshUrl;
       });
+
+      function done() {
+        completed++;
+        if (completed >= cams.length && refreshBtn) {
+          refreshBtn.textContent = "Refresh now";
+        }
+      }
+    }
+
+    function updateCountdown() {
+      const remaining = Math.max(0, nextRefreshTime - Date.now());
+      if (remaining === 0) {
+        refreshAllCams();
+        return;
+      }
+      const totalSec = Math.floor(remaining / 1000);
+      const mins = Math.floor(totalSec / 60);
+      const secs = totalSec % 60;
+      if (countdownEl) {
+        countdownEl.textContent = mins + ":" + (secs < 10 ? "0" : "") + secs;
+      }
+    }
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener("click", refreshAllCams);
     }
 
     refreshAllCams();
-    setInterval(refreshAllCams, 15 * 60 * 1000);
+    setInterval(updateCountdown, 1000);
   })();
 </script>
+
 
 
 <p class="cam-note">Click in image to view time-lapse series. View an earlier series by selecting another start date.</p>
