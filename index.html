@@ -507,6 +507,8 @@ function trap() {
     }
 
     function updateCountdown() {
+      if (document.hidden) return;
+
       const remaining = Math.max(0, nextRefreshTime - Date.now());
       if (remaining === 0) {
         refreshAllCams();
@@ -520,6 +522,16 @@ function trap() {
       }
     }
 
+    document.addEventListener("visibilitychange", function() {
+      if (!document.hidden) {
+        if (Date.now() >= nextRefreshTime) {
+          refreshAllCams();
+        } else {
+          updateCountdown();
+        }
+      }
+    });
+
     if (refreshBtn) {
       refreshBtn.addEventListener("click", refreshAllCams);
     }
@@ -528,8 +540,6 @@ function trap() {
     setInterval(updateCountdown, 1000);
   })();
 </script>
-
-
 
 <p class="cam-note">Click in image to view time-lapse series. View an earlier series by selecting another start date.</p>
 
